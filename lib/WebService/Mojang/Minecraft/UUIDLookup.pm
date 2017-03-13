@@ -115,7 +115,7 @@ sub lookup_user {
     }
 
     # If there's no such user, Mojang return status 204 with an empty body
-    if ($response->status == 204) {
+    if ($response->code == 204) {
         return;
     }
 
