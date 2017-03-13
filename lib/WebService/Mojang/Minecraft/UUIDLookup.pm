@@ -2,11 +2,12 @@ package WebService::Mojang::Minecraft::UUIDLookup;
 
 use 5.006;
 use strict;
+use Data::UUID;
 use Moo;
 use LWP::UserAgent;
 use JSON;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 NAME
 
@@ -80,6 +81,12 @@ Returns a hash (in list context) or hashref (in scalar context) with the keys:
 The UUID for this username; this identifies the Mojang account, and does not
 change, even if the user renames their account.
 
+=item C<formatted_uuid>
+
+The UUID for this username - as C<uuid>, but formatted using L<Data::UUID>'s
+C<to_string> method (e.g. C<85d699cb21774d538366f2cdf9dc93cd> as returned by
+Mojang becomes C<36643538-3939-6263-3231-373734643533>).
+
 =item C<username>
 
 The current username for this account
@@ -112,6 +119,10 @@ sub lookup_user {
         uuid     => $result->{id},
         username => $result->{name},
     );
+
+    # Provide padded uuid too
+    $return{formatted_uuid} = Data::UUID->new->to_string($result->{id});
+
     if ($result->{id} && $self->lookup_previous_usernames) {
         my $uuid_lookup = $self->lookup_uuid($result->{id});
         $return{previous_usernames} = $uuid_lookup->{previous_usernames};
