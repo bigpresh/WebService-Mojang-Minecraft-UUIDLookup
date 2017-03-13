@@ -1,5 +1,8 @@
 Revision history for WebService-Mojang-Minecraft-UUIDLookup
 
+0.05    2017-03-14
+        Handle 204 with empty body from Mojang if no match found for account.
+
 0.04    2017-03-14
         Quick bugfix for previous release, which didn't use Data::UUID properly.
 0.03    2017-03-14
