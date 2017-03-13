@@ -72,7 +72,8 @@ the lookup_previous_usernames option is set to a false value; it defaults to
 enabled, but if you don't care about previous usernames and want to save an API
 call you can disable it.
 
-Returns a hash (in list context) or hashref (in scalar context) with the keys:
+Returns undef if Mojang indicated no match, otherwise a hash (in list context)
+or hashref (in scalar context) with the keys:
 
 =over
 
@@ -112,6 +113,12 @@ sub lookup_user {
     if (!$response->is_success) {
         die "Failed to query Mojang API: " . $response->status_line;
     }
+
+    # If there's no such user, Mojang return status 204 with an empty body
+    if ($response->status == 204) {
+        return;
+    }
+
     my $result = JSON::from_json($response->decoded_content)
         or die "Failed to parse Mojang API response";
     
