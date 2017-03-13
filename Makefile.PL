@@ -18,6 +18,7 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
+        'Data::UUID' => 0,
         'Moo' => 0,
         'LWP::UserAgent' => 0,
         'JSON' => 0,
