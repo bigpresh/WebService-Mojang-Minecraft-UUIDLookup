@@ -7,7 +7,7 @@ use Moo;
 use LWP::UserAgent;
 use JSON;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -121,7 +121,9 @@ sub lookup_user {
     );
 
     # Provide padded uuid too
-    $return{formatted_uuid} = Data::UUID->new->to_string($result->{id});
+    $return{formatted_uuid} = Data::UUID->new->to_string(
+        Data::UUID->new->from_string($result->{id})
+    );
 
     if ($result->{id} && $self->lookup_previous_usernames) {
         my $uuid_lookup = $self->lookup_uuid($result->{id});
