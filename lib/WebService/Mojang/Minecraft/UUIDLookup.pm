@@ -7,7 +7,7 @@ use Moo;
 use LWP::UserAgent;
 use JSON;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
